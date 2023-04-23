@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,700;1,400;1,800&display=swap"
+      rel="stylesheet" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/images/favicon-32x32.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <title>Frontend Mentor | Age calculator app</title>
+
+    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+      }
+
+      .attribution {
+        font-size: 11px;
+        text-align: center;
+      }
+      .attribution a {
+        color: hsl(228, 45%, 44%);
+      }
+    </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        document
+          .getElementById("form-data")
+          .addEventListener("submit", function (event) {
+            event.preventDefault()
+            const day = parseInt(document.querySelector("#day").value)
+            const month = parseInt(document.querySelector("#month").value)
+            const year = parseInt(document.querySelector("#year").value)
+
+            const inputDate = new Date(year, month - 1, day)
+
+            const today = new Date()
+            const result = calculateDate(inputDate, today)
+
+            const daysResult = document.querySelector("#total-days")
+            const monthsResult = document.querySelector("#total-months")
+            const yearsResult = document.querySelector("#total-years")
+
+            daysResult.innerHTML = result.days
+            monthsResult.innerHTML = result.months
+            yearsResult.innerHTML = result.years
+
+            function calculateDate(inputDate, today) {
+              let years = today.getFullYear() - inputDate.getFullYear()
+              let months = today.getMonth() - inputDate.getMonth()
+              let days = today.getDate() - inputDate.getDate()
+
+              if (months < 0 || (months === 0 && days < 0)) {
+                years--
+                months += 12
+              }
+              if (days < 0) {
+                months--
+                const daysInMonth = new Date(
+                  today.getFullYear(),
+                  today.getMonth(),
+                  0
+                ).getDate()
+                days += daysInMonth
+              }
+              return {
+                years,
+                months,
+                days,
+              }
+            }
+          })
+      })
+    </script>
+  </head>
+  <body
+    class="flex flex-col items-center justify-center h-screen bg-[#F0f0f0] text-[32px]">
+    <div
+      class="bg-white md:w-[600px] md:h-[500px] h-[600px] p-10 rounded-tl-3xl rounded-tr-3xl rounded-bl-3xl rounded-br-[200px]">
+      <form id="form-data" class="bg-white flex gap-x-4 relative">
+        <label class="flex flex-col gap-2 font-semibold text-xs" for="day"
+          >DAY
+          <input
+            class="w-28 border-2 text-2xl p-2 rounded p-3 font-semibold active:border-[#864DFF] focus:border-[#864DFF] outline-[#864DFF]"
+            placeholder="DD"
+            type="number"
+            name="day"
+            id="day"
+            max="31"
+            required />
+        </label>
+        <label class="flex flex-col gap-2 font-semibold text-xs" for="month"
+          >MONTH
+          <input
+            class="w-28 border-2 text-2xl p-2 rounded p-3 font-semibold active:border-[#864DFF] focus:border-[#864DFF] outline-[#864DFF]"
+            placeholder="MM"
+            type="number"
+            name="month"
+            id="month"
+            max="12"
+            required />
+        </label>
+        <label class="flex flex-col gap-2 font-semibold text-xs" for="year"
+          >YEAR
+          <input
+            class="w-32 border-2 text-2xl p-2 rounded p-3 font-semibold active:border-[#864DFF] focus:border-[#864DFF] outline-[#864DFF]"
+            placeholder="YYYY"
+            type="number"
+            name="year"
+            id="year"
+            min="1900"
+            max="9999"
+            required />
+        </label>
+        <button
+          id="button-calculate"
+          type="submit"
+          class="w-16 absolute md:top-20 md:right-0 top-32 left-1/2 -translate-x-1/2 h-16 bg-[#864DFF] rounded-full p-4 active:bg-black">
+          <img src="./assets/images/icon-arrow.svg" />
+        </button>
+      </form>
+      <div class="relative md:mt-16 mt-40 italic">
+        <p class="text-7xl font-bold mt-8">
+          <span id="total-years" class="text-[#864DFF]">--</span> years
+        </p>
+        <p class="text-7xl font-black mt-2">
+          <span id="total-months" class="text-[#864DFF]">--</span> months
+        </p>
+        <p class="text-7xl font-black mt-2">
+          <span id="total-days" class="text-[#864DFF]">--</span> days
+        </p>
+      </div>
+    </div>
+
+    <div class="attribution mt-2">
+      Challenge by
+      <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+        >Frontend Mentor</a
+      >. Coded by <a href="#">Wemerson Queiroz</a>.
+    </div>
+  </body>
+</html>
